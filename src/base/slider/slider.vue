@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  // import BScroll from 'better-scroll'
+  import BScroll from 'better-scroll'
   import {addClass} from 'common/js/dom'
 
   export default {
@@ -56,7 +56,16 @@
         this.$refs.sliderGroup.style.width = width + 'px'
       },
       _initSlider() {
-
+        this.slider = new BScroll(this.$refs.slider, {
+          scrollX: true,
+          scrollY: false,
+          momentum: false,
+          snap: true,
+          snapLoop: true,
+          snapThreshold: 0.3,
+          snapSpeed: 400,
+          click: true
+        })
       }
     }
   }
@@ -69,21 +78,21 @@
     // border 1px solid red
 
   .slider
-    // min-height: 1px
+    min-height: 1px
     .slider-group
       position: relative
-      // overflow: hidden
-      // white-space: nowrap
+      overflow: hidden
+      white-space: nowrap
       .slider-item
         float: left
         box-sizing: border-box
-        // overflow: hidden
-        // text-align: center
+        overflow: hidden
+        text-align: center
         a
           display: block
           width: 100%
-          // overflow: hidden
-          // text-decoration: none
+          overflow: hidden
+          text-decoration: none
         img
           display: block
           width: 100%
