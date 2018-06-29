@@ -50,5 +50,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="stylus" scoped>
+  @import '~common/stylus/variable'
+
+  *
+    border 1px solid yellow
+
+  .recommend
+    position fixed
+    width 100%
+    top 88px
+    bottom 0
+    .recommend-content
+      height 100%
+
 </style>
+
