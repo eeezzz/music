@@ -2,8 +2,10 @@
   <scroll class="listview" ref="listview" :data="data">
     <ul>
       <li v-for="(group, index) in data" :key="index" class="list-group" ref="listGroup">
+        <!-- map[key].title (熱門, a, b... z) -->
         <h2 class="list-group-title">{{group.title}}</h2>
         <ul>
+          <!-- map[key].items -->
           <li v-for="(item, index) in group.items" :key="index" class="list-group-item">
             <img class="avatar" v-lazy="item.avatar">
             <span class="name">{{item.name}}</span>
@@ -41,15 +43,17 @@ export default {
     }
   },
   created() {
+    // 為了增加一些效能，因為在data裡的值，會被監控著。
     this.touch = {}
   },
   methods: {
     // 取得點擊的data-index值，再直接滾動到對應的listGroup
     onShortcutTouchStart(e) {
-      // console.log('touched', e.target)
+      console.log('touched', e.target)
       let anchorIndex = getData(e.target, 'index')
-      // 記錄按下去的Y
+      // 記錄按下去的Y坐標(pageY)、map[index]中的index
       let firstTouch = e.touches[0]
+      // pageY 指整個document的Y坐標值
       this.touch.y1 = firstTouch.pageY
       this.touch.anchorIndex = anchorIndex
       this._scrollTo(anchorIndex)
@@ -60,11 +64,13 @@ export default {
       this.touch.y2 = firstTouch.pageY
       let delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0 // math.floor()
       console.log(delta)
+      // getAttribute取出的為字串，需以parseInt轉為數值
       let anchorIndex = delta + parseInt(this.touch.anchorIndex)
       this._scrollTo(anchorIndex)
     },
     _scrollTo(index) {
-      this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
+      // this.$refs.listview 是 scroll 組件
+      this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 1000)
     }
   },
   components: {

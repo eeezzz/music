@@ -52,13 +52,12 @@ export default {
     scrollTo() {
       this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
     },
-    scrollToElemen() {
+    scrollToElement() {
       this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
     }
   },
   watch: {
-    // 當數據變化時，重新計算高度
-    // props裡的Data
+    // 當props裡的Data數據變化時，重新計算高度
     data() {
       setTimeout(() => {
         this.refresh()
