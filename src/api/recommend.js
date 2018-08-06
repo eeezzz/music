@@ -1,8 +1,10 @@
+
+// 沒有用{}, 是以 export default 定義
 import jsonp from 'common/js/jsonp'
 import { commonParams, options } from './config'
 import axios from 'axios'
 
-
+// 取得輪播圖資料（輪播圖組件用）
 export function getRecommend() {
   const url =
     'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'

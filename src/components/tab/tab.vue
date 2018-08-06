@@ -1,5 +1,6 @@
 <template>
   <div class="tab">
+    <!-- router-link 默认渲染的是a, 可以用tag来改变 -->
     <router-link tag="div" class="tab-item" to="/recommend">
       <span class="tab-link">推薦</span>
     </router-link>
@@ -39,6 +40,7 @@
       .tab-link
         color $color-text-l
         padding-bottom 5px
+      // router-link被點擊時的class
       &.router-link-active
         .tab-link
           color $color-theme

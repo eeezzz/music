@@ -4,6 +4,9 @@
 
 ## Build Setup
 
+# better-scroll 中文說明
+https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/
+
 ``` bash
 # install dependencies
 npm install
