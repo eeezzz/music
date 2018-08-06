@@ -3,7 +3,7 @@
       <!-- 避免scroll高度不對，在slider以圖片load, 在歌單以數據變更，來執行 refresh -->
       <scroll ref="scroll" class="recommend-content" :data="discList">
         <div>
-          <!-- 有回傳值才炫染 -->
+          <!-- 有回傳值才渲染 -->
           <div v-if="recommends.length" class="slider-wrapper">
             <Slider>
               <div v-for="item in recommends" :key="item.id">
@@ -52,7 +52,9 @@ export default {
   },
   created() {
     this._getRecommend()
-    this._getDiscList()
+    setTimeout(() => {
+      this._getDiscList()
+    }, 1000)
   },
   methods: {
     _getRecommend() {

@@ -2,6 +2,7 @@
   <div id="app">
     <m-header></m-header>
     <Tab></Tab>
+    <!-- 將dom, 緩存到內存中 -->
     <keep-alive>
       <router-view></router-view>
     </keep-alive>

@@ -5,6 +5,7 @@
       </slot>
     </div>
     <div class="dots">
+      <!-- 目前頁面對應的dot, 就加上 active class -->
       <span class="dot" :class="{active: currentPageIndex === index }" v-for="(item, index) in dots" :key="index"></span>
     </div>
   </div>
@@ -38,17 +39,20 @@ export default {
   },
   mounted() {
     // 組件初始化
+    // 等義於 nextTick
     setTimeout(() => {
       this._setSliderWidth()
       this._initDots()
       this._initSlider()
-
+      // 自動播放
       if (this.autoPlay) {
         this._play()
       }
     }, 20)
 
+    // 當視窗大小改變，要重算slider的寛度
     window.addEventListener('resize', () => {
+      // this.slider 未初始化時，什麼都不做
       if (!this.slider || !this.slider.enabled) {
         return
       }
@@ -67,6 +71,8 @@ export default {
   },
   activated() {
     this.slider.enable()
+    // this.slider 為 BScroll物件
+    // 獲取當前頁面數
     let pageIndex = this.slider.getCurrentPage().pageX
     this.slider.goToPage(pageIndex, 0, 0)
     this.currentPageIndex = pageIndex
@@ -79,13 +85,16 @@ export default {
     clearTimeout(this.timer)
   },
   beforeDestroy() {
+    // 清理佔用的資源
     this.slider.disable()
     clearTimeout(this.timer)
   },
   methods: {
     refresh() {
       if (this.slider) {
+        // 傳入true, 表示是 resize
         this._setSliderWidth(true)
+        // 呼叫 better-scroll的refresh, 將改變重新反應到元件
         this.slider.refresh()
       }
     },
@@ -104,6 +113,7 @@ export default {
         width += sliderWidth
       }
       // 因為循環輪播，前後需加上一單位的寛度
+      // 但如果因為視窗大小改變，就不可再加
       if (this.loop && !isResize) {
         width += 2 * sliderWidth
       }
@@ -115,13 +125,14 @@ export default {
       this.slider = new BScroll(this.$refs.slider, {
         scrollX: true, // 開啟橫向滾動
         scrollY: false,
-        momentum: false, // 關閉快速滑動功能
+        momentum: false, // （慣性）關閉快速滑動功能
         snap: {
           // 配置Slide組件用
           loop: this.loop, // 設定是否循環輪播
           threshold: 0.3, // 設定可滾動到下一個的邊界值
           speed: 400
         },
+        // 手機不能點時，要將其移除
         click: true // 默認會阻止瀏覧器原生的 click 事件
       })
 
@@ -145,6 +156,7 @@ export default {
 
     // 滾動結束時觸發
     _onScrollEnd() {
+      // this.slider 為 BScroll物件
       // 獲取當前頁面數
       let pageIndex = this.slider.getCurrentPage().pageX
       // 變更 dot 顯示

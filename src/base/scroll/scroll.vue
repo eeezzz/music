@@ -30,6 +30,7 @@ export default {
   },
   methods: {
     _initScroll() {
+      // 如果尚未初始化，其值會是undefine
       if (!this.$refs.wrapper) {
         return
       }
@@ -57,6 +58,7 @@ export default {
   },
   watch: {
     // 當數據變化時，重新計算高度
+    // props裡的Data
     data() {
       setTimeout(() => {
         this.refresh()

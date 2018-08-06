@@ -18,6 +18,7 @@ export function getRecommend() {
   return jsonp(url, data, options)
 }
 
+// 取得歌單數據
 export function getDiscList() {
   const url = '/api/getDiscList'
 
@@ -30,7 +31,7 @@ export function getDiscList() {
     needNewCode: 0,
     categoryId: 10000000,
     rnd: Math.random(),
-    format: 'json'
+    format: 'json'  // 返回改為json格式
   })
 
   return axios.get(url, {
