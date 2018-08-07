@@ -1,6 +1,6 @@
 // 為API定義一些常用的參數
 export const commonParams = {
-  g_tk: 1928093487,
+  g_tk: 5381,
   inCharset: 'utf-8',
   outCharset: 'utf-8',
   notice: 0,

@@ -21,6 +21,11 @@ export default {
     data: {
       type: Array,
       default: null
+    },
+    // 是否監聽滾動事件
+    listenScroll: {
+      type: Boolean,
+      default: false
     }
   },
   mounted() {
@@ -38,6 +43,13 @@ export default {
         probeType: this.probeType,
         click: this.click
       })
+      // 監聽狀態下，則在內部派發一個scroll 事件，去出去pos對象，它有x和y的屬性
+      if (this.listenScroll) {
+        let me = this
+        this.scroll.on('scroll', (pos) => {
+          me.$emit('scroll', pos)
+        })
+      }
     },
     enable() {
       // this.scroll 存在則讓其 enable
