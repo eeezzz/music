@@ -26,6 +26,7 @@ module.exports = {
     'eol-last': 0,
     'space-before-function-paren': 0,
     // disable no-multiple-empty-lines
-    'no-multiple-empty-lines': 0
+    'no-multiple-empty-lines': 0,
+    'no-tabs': 0
   }
 }
