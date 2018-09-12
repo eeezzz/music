@@ -1,23 +1,23 @@
 <template>
-  <div class="recommend">
-      <!-- 避免scroll高度不對，在slider以圖片load, 在歌單以數據變更，來執行 refresh -->
-      <scroll ref="scroll" class="recommend-content" :data="discList">
-        <div>
-          <!-- 有回傳值才渲染 -->
-          <div v-if="recommends.length" class="slider-wrapper">
-            <Slider>
-              <div v-for="item in recommends" :key="item.id">
-                <a :href="item.linkUrl">
-                  <!-- 當圖片load時，也通知 scroll 更新 -->
-                  <img @load="loadImg" :src="item.picUrl" />
-                </a>
-              </div>
-            </Slider>
-          </div>
-          <div class="recommend-list">
+  <div class="recommend"  ref="recommend">
+    <!-- 避免scroll高度不對，在slider以圖片load, 在歌單以數據變更，來執行 refresh -->
+    <scroll ref="scroll" class="recommend-content" :data="discList">
+      <div>
+        <!-- 有回傳值才渲染 -->
+        <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
+          <Slider>
+            <div v-for="item in recommends" :key="item.id">
+              <!-- <a :href="item.linkUrl"> -->
+                <!-- 當圖片load時，也通知 scroll 更新 -->
+                <img class="needsclick" @load="loadImg" :src="item.picUrl" />
+              <!-- </a> -->
+            </div>
+          </Slider>
+        </div>
+        <div class="recommend-list">
           <h1 class="list-title">熱門歌單推薦</h1>
           <ul>
-            <li @click="selectItem(item)" v-for="(item, index) in discList" :key="index">
+            <li @click="selectItem(item)" v-for="(item, index) in discList" :key="index" class="item">
               <div class="icon">
                 <img width="60" height="60" v-lazy="item.imgurl"/>
               </div>
@@ -27,13 +27,13 @@
               </div>
             </li>
           </ul>
-          </div>
         </div>
-        <div class="loading-container" v-show="!discList.length">
-          <loading></loading>
-        </div>
-      </scroll>
-      <router-view></router-view>
+      </div>
+      <div class="loading-container" v-show="!discList.length">
+        <loading></loading>
+      </div>
+    </scroll>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -99,50 +99,53 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-  @import '~common/stylus/variable'
-
-  *
-    border 1px solid yellow
+<style scoped lang="stylus" rel="stylesheet/stylus">
+  @import "~common/stylus/variable"
 
   .recommend
-    position fixed
-    width 100%
-    top 88px
-    bottom 0
+    position: fixed
+    width: 100%
+    top: 88px
+    bottom: 0
     .recommend-content
-      height 100%
-      overflow hidden
+      height: 100%
+      overflow: hidden
+      .slider-wrapper
+        position: relative
+        width: 100%
+        overflow: hidden
       .recommend-list
         .list-title
-          height 65px
-          line-height 65px
-          text-align center
-          font-size $font-size-medium
-          color $color-theme
+          height: 65px
+          line-height: 65px
+          text-align: center
+          font-size: $font-size-medium
+          color: $color-theme
         .item
           display: flex
-          box-sizing border-box
-          // text-align center
-          padding 0 20px 20px 20px
+          box-sizing: border-box
+          align-items: center
+          padding: 0 20px 20px 20px
           .icon
-            padding-right 20px
+            flex: 0 0 60px
+            width: 60px
+            padding-right: 20px
           .text
-            display flex
-            flex-direction column
-            justify-content space-between
-            font-size $font-size-medium
+            display: flex
+            flex-direction: column
+            justify-content: center
+            flex: 1
+            line-height: 20px
+            overflow: hidden
+            font-size: $font-size-medium
             .name
+              margin-bottom: 10px
               color: $color-text
-              // margin-bottom 10px
             .desc
               color: $color-text-d
       .loading-container
-        position absolute
-        width 100%
-        top 50%
-        transform translateY(-50%)
-
-
+        position: absolute
+        width: 100%
+        top: 50%
+        transform: translateY(-50%)
 </style>
-

@@ -114,8 +114,7 @@
     }
   }
 </script>
-
-<style lang='stylus' scoped>
+<style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
   @import "~common/stylus/mixin"
 
@@ -149,14 +148,12 @@
       font-size: $font-size-large
       color: $color-text
     .bg-image
-      border: 1px solid yellow
       position: relative
       width: 100%
       height: 0
       padding-top: 70%
       transform-origin: top
       background-size: cover
-      // z-index 10
       .play-wrapper
         position: absolute
         bottom: 20px
@@ -193,12 +190,10 @@
       height: 100%
       background: $color-background
     .list
-      border 1px solid red
       position: fixed
       top: 0
       bottom: 0
       width: 100%
-      // overflow hidden
       background: $color-background
       .song-list-wrapper
         padding: 20px 30px
