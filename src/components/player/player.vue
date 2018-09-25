@@ -69,7 +69,7 @@
               <i @click="next" class="icon-next"></i>
             </div>
             <div class="icon i-right">
-              <div class="icon icon-not-favorite"></div>
+              <div class="icon" @click="toggleFavorite(currentSong)" :class="getFavoriteIcon(currentSong)"></div>
             </div>
           </div>
         </div>
@@ -113,11 +113,13 @@ import {shuffle} from 'common/js/util'
 import Lyric from 'lyric-parser'
 import Scroll from 'base/scroll/scroll'
 import PlayList from 'components/playlist/playlist'
+import {playerMixin} from 'common/js/mixin'
 
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
 
 export default {
+  mixins: [playerMixin],
   data() {
     return {
       songReady: false,
@@ -430,6 +432,10 @@ export default {
   },
   watch: {
     currentSong(newSong, oldSong) {
+      // 刪到列表無歌曲
+      if (!newSong.id) {
+        return
+      }
       if (newSong.id === oldSong.id) {
         return
       }
