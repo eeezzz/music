@@ -89,11 +89,13 @@
             <i @click.stop="togglePlaying" class="icon-mini" :class="miniIcon"></i>
           </ProgressCircle>
         </div>
-        <div class="control">
+        <!-- 這裡的click.stop是阻止playlis的click -->
+        <div class="control" @click.stop="showPlayList"> 
           <i class="icon-playlist"></i>
         </div>
       </div>
     </transition>
+    <play-list ref="playlist"></play-list>
     <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
     <!-- <audio ref="audio" src="/static/audios/missyou.mp3" ></audio> -->
     <!-- <audio ref="audio" src="http://localhost:82/audios/missyou.mp3" ></audio> -->
@@ -110,6 +112,7 @@ import {playMode} from 'common/js/config'
 import {shuffle} from 'common/js/util'
 import Lyric from 'lyric-parser'
 import Scroll from 'base/scroll/scroll'
+import PlayList from 'components/playlist/playlist'
 
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
@@ -334,6 +337,9 @@ export default {
       }
       this.playingLyric = txt
     },
+    showPlayList() {
+      this.$refs.playlist.show()
+    },
     middleTouchStart(e) {
       this.touch.initiated = true
       const touch = e.touches[0]
@@ -448,7 +454,8 @@ export default {
   components: {
     ProgressBar,
     ProgressCircle,
-    Scroll
+    Scroll,
+    PlayList
   }
 }
 </script>
