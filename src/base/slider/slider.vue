@@ -53,7 +53,7 @@ export default {
     // 當視窗大小改變，要重算slider的寛度
     window.addEventListener('resize', () => {
       // this.slider 未初始化時，什麼都不做
-      if (!this.slider || !this.slider.enabled) {
+      if (!this.slider || !this.slider.enable) {
         return
       }
       clearTimeout(this.resizeTimer)

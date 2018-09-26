@@ -16,7 +16,7 @@ export default {
     },
     click: {
       type: Boolean,
-      default: true
+      default: false
     },
     data: {
       type: Array,

@@ -114,6 +114,7 @@ import Lyric from 'lyric-parser'
 import Scroll from 'base/scroll/scroll'
 import PlayList from 'components/playlist/playlist'
 import {playerMixin} from 'common/js/mixin'
+import { Base64 } from 'js-base64'
 
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
@@ -295,7 +296,7 @@ export default {
         this.togglePlaying()
       }
       if (this.currentLyric) {
-        this.currentLyric.seek(currentTime * 1000)
+        // this.currentLyric.seek(currentTime * 1000)
       }
     },
     changeMode() {
@@ -317,17 +318,25 @@ export default {
       this.setCurrentIndex(index)
     },
     getLyric() {
-      this.currentSong.getLyric().then((lyric) => {
-        this.currentLyric = new Lyric(lyric, this.handleLyric)
-        if (this.playing) {
-          this.currentLyric.play()
-        }
-        console.log(this.currentLyric)
-      }).catch(() => {
-        this.currentLyric = null
-        this.playingLyric = ''
-        this.currentLineNum = 0
-      })
+      // this.currentSong.getLyric().then((lyric) => {
+      //   console.log('lyric', lyric)
+      //   this.currentLyric = new Lyric(lyric, this.handleLyric)
+      //   if (this.playing) {
+      //     this.currentLyric.play()
+      //   }
+      //   // console.log(this.currentLyric)
+      // }).catch(() => {
+      //   this.currentLyric = null
+      //   this.playingLyric = ''
+      //   this.currentLineNum = 0
+      // })
+      let myLyric = 'W3RpOua8lOWRmF0KW2FyOuiWm+S5i+iwpl0KW2FsOue7heWjq10KW2J5Ol0KW29mZnNldDowXQpbMDA6MDAuNTZd5ryU5ZGYIC0g6Jab5LmL6LCmIChKb2tlcikKWzAwOjAyLjQyXeivje+8muiWm+S5i+iwpgpbMDA6MDMuOTld5puy77ya6Jab5LmL6LCmClswMDowNS4zOF3nvJbmm7LvvJrpg5HkvJ8v5byg5a6d5a6HClswMDowNy40NV3liLbkvZzkurrvvJrotbXoi7Hkv4oKWzAwOjA5LjA5XeWQiOWjsO+8mui1teiLseS/igpbMDA6MTAuNDhd5b2V6Z+z5biI77ya546L5pmT5rW3ClswMDoxMS43NF0KWzAwOjEyLjM0Xea3t+mfs+W4iO+8mumyjemUkApbMDA6MTMuODhd5q+N5bim5aSE55CG5bel56iL5biI77ya6bKN6ZSQClswMDoxNi4xMF0KWzAwOjIxLjI1XeeugOWNleeCuQpbMDA6MjIuMjFdClswMDoyNS4xNl3or7Tor53nmoTmlrnlvI/nroDljZXngrkKWzAwOjI4LjI3XQpbMDA6MzAuMjJd6YCS6L+b55qE5oOF57uq6K+355yB55WlClswMDozMy41N13kvaDlj4jkuI3mmK/kuKrmvJTlkZgKWzAwOjM2LjI3XeWIq+iuvuiuoemCo+S6m+aDheiKggpbMDA6MzkuMDhdClswMDo0Mi4yMF3msqHmhI/op4EKWzAwOjQzLjc0XQpbMDA6NDYuMTdd5oiR5Y+q5oOz55yL55yL5L2g5oCO5LmI5ZyGClswMDo0OS40N10KWzAwOjUxLjc0XeS9oOmavui/h+eahOWkquihqOmdogpbMDA6NTQuNjBd5YOP5rKh5aSp6LWL55qE5ryU5ZGYClswMDo1Ny4yMV3op4LkvJfkuIDnnLzog73nnIvop4EKWzAwOjU5LjY4XQpbMDE6MDIuNDZd6K+l6YWN5ZCI5L2g5ryU5Ye655qE5oiR5ryU6KeG6ICM5LiN6KeBClswMTowNy4wMl0KWzAxOjA3LjU2XeWcqOmAvOS4gOS4quacgOeIseS9oOeahOS6uuWNs+WFtOihqOa8lApbMDE6MTIuMTldClswMToxMi44Nl3ku4DkuYjml7blgJnmiJHku6zlvIDlp4vmlLbotbfkuoblupXnur8KWzAxOjE3LjM4XQpbMDE6MTguMDNd6aG65bqU5pe25Luj55qE5pS55Y+Y55yL6YKj5Lqb5ouZ5Yqj55qE6KGo5ryUClswMToyMy40MF3lj6/kvaDmm77nu4/pgqPkuYjniLHmiJHlubLlmJvmvJTlh7rnu4boioIKWzAxOjI3Ljk2XQpbMDE6MjguNjFd5oiR6K+l5Y+Y5oiQ5LuA5LmI5qC35a2Q5omN6IO95bu257yT5Y6M5YCmClswMTozMy4zNF0KWzAxOjMzLjg2XeWOn+adpeW9k+eIseaUvuS4i+mYsuWkh+WQjueahOi/meS6m+mCo+S6mwpbMDE6MzguNDddClswMTozOS40Ml3miY3mmK/ogIPpqowKWzAxOjQxLjQxXQpbMDE6NDQuOTld5rKh5oSP6KeBClswMTo0Ni4zN10KWzAxOjQ5LjA2XeS9oOaDs+aAjuagt+aIkemDvemaj+S+vwpbMDE6NTIuMTNdClswMTo1NS4wMV3kvaDmvJTmioDkuZ/mnInpmZAKWzAxOjU3LjM3XeWPiOS4jeeUqOivtOaEn+iogApbMDI6MDAuMDdd5YiG5byA5bCx5bmz5reh5LqbClswMjowMi44OF0KWzAyOjA1LjM1XeivpemFjeWQiOS9oOa8lOWHuueahOaIkea8lOinhuiAjOS4jeingQpbMDI6MDkuOTJdClswMjoxMC40OF3liKvpgLzkuIDkuKrmnIDniLHkvaDnmoTkurrljbPlhbTooajmvJQKWzAyOjE1LjE1XQpbMDI6MTUuODBd5LuA5LmI5pe25YCZ5oiR5Lus5byA5aeL5rKh5pyJ5LqG5bqV57q/ClswMjoyMC4yNl0KWzAyOjIwLjk0XemhuuedgOWIq+S6uueahOiwjuiogOiiq+WKqOWwseS4jeaYvuW+l+WPr+aAnApbMDI6MjYuMzFd5Y+v5L2g5pu+57uP6YKj5LmI54ix5oiR5bmy5Zib5ryU5Ye657uG6IqCClswMjozMC43OF0KWzAyOjMxLjUyXeaIkeivpeWPmOaIkOS7gOS5iOagt+WtkOaJjeiDvemFjeWQiOWHuua8lApbMDI6MzUuOTVdClswMjozNi43Nl3ljp/mnaXlvZPniLHmlL7kuIvpmLLlpIflkI7nmoTov5nkupvpgqPkupsKWzAyOjQxLjE3XQpbMDI6NDEuOTFd6YO95pyJ5Liq5pyf6ZmQClswMjo0NC40OF0KWzAyOjQ3LjkyXeWFtuWunuWPsOS4i+eahOinguS8l+WwseaIkeS4gOS4qgpbMDI6NTEuODddClswMjo1My4wNF3lhbblrp7miJHkuZ/nnIvlh7rkvaDmnInngrnkuI3oiI0KWzAyOjU3LjI2XQpbMDI6NTguNDFd5Zy65pmv5Lmf5Lmg5oOv5oiR5Lus5p2l5Zue5ouJ5omvClswMzowMi4yMl0KWzAzOjAyLjk3Xei/mOiuoei+g+edgOS7gOS5iApbMDM6MDYuOTJdClswMzowOC44Nl3lhbblrp7or7TliIbkuI3lvIDnmoTkuZ/kuI3op4HlvpcKWzAzOjEzLjI1XQpbMDM6MTQuMTZd5YW25a6e5oSf5oOF5pyA5oCV55qE5bCx5piv5ouW552AClswMzoxOC4yM10KWzAzOjE5LjM5Xei2iua8lOWIsOmHjeWcuuaIj+i2iuWTreS4jeWHuuS6hgpbMDM6MjMuMzBdClswMzoyNC4xOF3mmK/lkKbov5jlgLzlvpcKWzAzOjI3LjQzXQpbMDM6MjkuMTVd6K+l6YWN5ZCI5L2g5ryU5Ye655qE5oiR5bC95Yqb5Zyo6KGo5ryUClswMzozMy43N10KWzAzOjM0LjM2XeWDj+aDheaEn+iKguebrumHjOeahOWYieWuvuS7u+S6uuaMkemAiQpbMDM6MzkuMTddClswMzozOS43MV3lpoLmnpzov5jog73nnIvlh7rmiJHmnInniLHkvaDnmoTpgqPpnaIKWzAzOjQ0LjAzXQpbMDM6NDQuOTNd6K+35Ymq5o6J6YKj5Lqb5oOF6IqC6K6p5oiR55yL5LiK5Y675L2T6Z2iClswMzo1MC4yMF3lj6/kvaDmm77nu4/pgqPkuYjniLHmiJHlubLlmJvmvJTlh7rnu4boioIKWzAzOjU0LjgxXQpbMDM6NTUuNDNd5LiN5Zyo5oSP55qE5qC35a2Q5piv5oiR5pyA5ZCO55qE6KGo5ryUClswNDowMC4wNF0KWzA0OjAxLjMyXeaYr+WboOS4uueIseS9oOaIkeaJjemAieaLqeihqOa8lApbMDQ6MDUuMjJdClswNDowNi4xN13ov5nnp43miJDlhag='
+      let lyric = Base64.decode(myLyric)
+      this.currentLyric = new Lyric(lyric, this.handleLyric)
+      if (this.playing) {
+        this.currentLyric.play()
+      }
+      console.log('mygetLyric', this.currentLyric)
     },
     handleLyric({lineNum, txt}) {
       this.currentLineNum = lineNum

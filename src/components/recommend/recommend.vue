@@ -73,7 +73,7 @@ export default {
       //   }
       // })
       this.recommends = [
-        { id: 1, linkUrl: '', picUrl: 'static/slider/1.jpg' },
+        { id: 1, linkUrl: 'https://store.kimy.com.tw', picUrl: 'static/slider/1.jpg' },
         { id: 2, linkUrl: '', picUrl: 'static/slider/2.jpg' }
       ]
       console.log('slider', this.recommends)
