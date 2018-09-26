@@ -29,11 +29,11 @@
         <div class="list-operate">
           <div class="add">
             <i class="icon-add"></i>
-            <span class="text">添加歌曲到队列</span>
+            <span class="text">添加歌曲到列表</span>
           </div>
         </div>
         <div @click="hide" class="list-close">
-          <span>关闭</span>
+          <span>關閉</span>
         </div>
       </div>
       <confirm ref="confirm" @confirm="confirmClear" text="是否清空播放列表" confirmBtnText="清空"></confirm>

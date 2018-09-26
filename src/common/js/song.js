@@ -45,13 +45,14 @@ export function createSong(musicData) {
     singer: filterSinger(musicData.singer),
     name: musicData.songname,
     album: musicData.albumname,
-    // duration: musicData.interval,
-    duration: 234,
-    image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg?max_age=2592000`,
+    duration: musicData.interval,
+    // duration: 234,
+    // image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg?max_age=2592000`,
+    image: `/static/photo/${musicData.albummid}.png`,
     // url: `http://ws.stream.qqmusic.qq.com/${musicData.songid}.m4a?fromtag=46`
     // url: `http://localhost:8080/static/audios/missyou.mp3`
     // url: `http://192.168.1.81:8080/static/audios/${musicData.songid}.mp3`
-    url: `http://localhost:8080/static/audios/${musicData.songid}.mp3`
+    url: `/static/audios/${musicData.songid}.mp3`
   })
 }
 
