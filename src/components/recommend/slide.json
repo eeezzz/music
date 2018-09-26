@@ -1,0 +1,30 @@
+[
+  {"id":1, "linkUrl": "", "picUrl": "1.jpg"},
+  {"id":2, "linkUrl": "", "picUrl": "2.jpg"},
+  {"id":3, "linkUrl": "", "picUrl": "3.jpg"},
+  {"id":4, "linkUrl": "", "picUrl": "4.jpg"}
+]
+
+[
+  {
+    imgurl: '/static/cover/1805c.jpg',
+    dissname: '地牛翻身！啊，地震',
+    creator: {
+      name: '小太陽4-7 2018.5'
+    }
+  },
+  {
+    imgurl: '/static/cover/1805c.jpg',
+    dissname: '地牛翻身！啊，地震',
+    creator: {
+      name: '小太陽4-7 2018.5'
+    }
+  },
+  {
+    imgurl: '/static/cover/1805c.jpg',
+    dissname: '地牛翻身！啊，地震',
+    creator: {
+      name: '小太陽4-7 2018.5'
+    }
+  }
+]
